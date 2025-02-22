@@ -1,0 +1,8 @@
+POST http://localhost:3333/inscricoes
+Content-Type: application/json 
+// determina o formato que os dados serão enviados
+
+{
+    "nome": "Neemias Cormino",
+    "email": "ncormino@gmail.com"
+}
