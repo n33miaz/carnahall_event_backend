@@ -10,7 +10,8 @@ import { fastifySwagger } from '@fastify/swagger'
 import { fastifySwaggerUi } from '@fastify/swagger-ui'
 import { inscricaoParaOEventoRoute } from './routes/inscricao-para-o-evento-route'
 import { env } from './env'
-import { linkAcessoConviteRoute } from './routes/link_acesso_convite'
+import { linkAcessoConviteRoute } from './routes/link_acesso_convite-route'
+import { clicksDeConviteRoute } from './routes/clicks_de_convite-route'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -39,6 +40,7 @@ app.register(fastifySwaggerUi, {
 
 app.register(inscricaoParaOEventoRoute);
 app.register(linkAcessoConviteRoute);
+app.register(clicksDeConviteRoute);
 
 app.listen({ port: env.PORT }).then(() => { // reportar 'quando' acontecer algo
     console.log("HTTP server rodando") 
