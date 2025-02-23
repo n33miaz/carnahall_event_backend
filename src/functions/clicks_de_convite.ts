@@ -5,12 +5,7 @@ interface clicksDeConviteParams {
 }
 
 export async function clicksDeConvite({ inscritoId }: clicksDeConviteParams) {
-	await redis.hincrby("referencia:contagem-acesso", inscritoId, 1);
-
 	const contagem = await redis.hget("referencia:contagem-acesso", inscritoId);
 
-	if (contagem) {
-		return { contagem: Number.parseInt(contagem) };
-	}
-	return { contagem: 0 };
+	return { contagem: contagem ? Number.parseInt(contagem) : 0 };
 }
