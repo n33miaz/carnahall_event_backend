@@ -1,3 +1,6 @@
+@host = localhost:3333
+
+### inscrição no evento
 POST http://localhost:3333/inscricoes
 Content-Type: application/json 
 // determina o formato que os dados serão enviados
@@ -7,11 +10,17 @@ Content-Type: application/json
     "email": "ncormino@gmail.com"
 }
 
-// nova rota
-###
-
+### acesso ao link de convite
 GET http://localhost:3333/convites/neemias
 
-###
-
+### clicks no convite do inscrito
 GET http://localhost:3333/inscritos/neemias/ranking/clicks
+
+### contagem de convites do inscrito
+GET http://localhost:3333/inscritos/neemias/ranking/contagem
+
+### posição no ranking do inscrito
+GET http://localhost:3333/inscritos/neemias/ranking/position
+
+### ranking
+GET http://localhost:3333/ranking

@@ -1,6 +1,6 @@
 services:
   service-pg:
-    image: bitnami/postgresql
+    image: bitnami/postgresql:latest
     ports:
       - '5432:5432'
     environment:
@@ -9,7 +9,7 @@ services:
       - POSTGRESQL_DATABASE=carnahall
 
   service-redis:
-    image: bitnami/redis
+    image: bitnami/redis:latest
     ports:
       - '6379:6379'
     environment:

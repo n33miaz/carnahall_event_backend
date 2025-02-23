@@ -1,47 +1,55 @@
-import { fastify } from 'fastify'
-import { fastifyCors } from '@fastify/cors'
+import { fastifyCors } from "@fastify/cors";
+import { fastifySwagger } from "@fastify/swagger";
+import { fastifySwaggerUi } from "@fastify/swagger-ui";
+import { fastify } from "fastify";
 import {
-    type ZodTypeProvider,
-    validatorCompiler, 
-    serializerCompiler,
-    jsonSchemaTransform
-} from 'fastify-type-provider-zod'
-import { fastifySwagger } from '@fastify/swagger'
-import { fastifySwaggerUi } from '@fastify/swagger-ui'
-import { inscricaoParaOEventoRoute } from './routes/inscricao-para-o-evento-route'
-import { env } from './env'
-import { linkAcessoConviteRoute } from './routes/link_acesso_convite-route'
-import { clicksDeConviteRoute } from './routes/clicks_de_convite-route'
+	type ZodTypeProvider,
+	jsonSchemaTransform,
+	serializerCompiler,
+	validatorCompiler,
+} from "fastify-type-provider-zod";
+import { env } from "./env";
+import { clicksDeConviteRoute } from "./routes/clicks_de_convite-route";
+import { contagemDeConvitesRoute } from "./routes/contagem_de_convites_route";
+import { inscricaoParaOEventoRoute } from "./routes/inscricao_para_o_evento_route";
+import { linkAcessoConviteRoute } from "./routes/link_acesso_convite_route";
+import { posicaoInscritoRankingRoute } from "./routes/posicao_inscrito_ranking_route";
+import { rankingRoute } from "./routes/ranking_route";
 
-const app = fastify().withTypeProvider<ZodTypeProvider>()
+const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.setSerializerCompiler(serializerCompiler); // faz a serialização dos dados
 app.setValidatorCompiler(validatorCompiler); // valida o formato de entrada de dados
 
 app.register(fastifyCors, { // restringe as aquisições para um frontend específico
-    origin: true, // ex: 'http://localhost:3333'
+	origin: 'http://localhost:3333'
 });
 
 app.register(fastifySwagger, {
-    openapi: {
-        info: {
-            title: 'CarnaHall', // evento de carnaval + dancehall
-            version: '0.0.1',  
-        },
-    },
-    transform: jsonSchemaTransform, 
-    // faz a documentação automática sobre a serialização e a validação './routes/inscricao-para-o-evento-route'
+	openapi: {
+		info: {
+			title: "CarnaHall", // evento de carnaval + dancehall
+			version: "0.0.1",
+		},
+	},
+	transform: jsonSchemaTransform,
+	// faz a documentação automática sobre a serialização e a validação './routes/inscricao-para-o-evento-route'
 });
 
 // rota da documentação 'http://localhost:3333/docs'
-app.register(fastifySwaggerUi, { 
-    routePrefix: '/docs',
+app.register(fastifySwaggerUi, {
+	routePrefix: "/docs",
 });
 
+// registro das rotas na aplicação
 app.register(inscricaoParaOEventoRoute);
 app.register(linkAcessoConviteRoute);
 app.register(clicksDeConviteRoute);
+app.register(contagemDeConvitesRoute);
+app.register(posicaoInscritoRankingRoute);
+app.register(rankingRoute);
 
-app.listen({ port: env.PORT }).then(() => { // reportar 'quando' acontecer algo
-    console.log("HTTP server rodando") 
+app.listen({ port: env.PORT }).then(() => {
+	// reportar 'quando' acontecer algo
+	console.log("HTTP server rodando");
 });
