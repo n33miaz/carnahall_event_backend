@@ -6,3 +6,8 @@ Content-Type: application/json
     "nome": "Neemias Cormino",
     "email": "ncormino@gmail.com"
 }
+
+// nova rota
+###
+
+GET http://localhost:3333/convites/neemias
