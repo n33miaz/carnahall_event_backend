@@ -1,7 +1,7 @@
 import { fastifyCors } from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
-import { fastify } from "fastify";
+import { fastify, type FastifyPluginAsync } from "fastify";
 import {
 	type ZodTypeProvider,
 	jsonSchemaTransform,
@@ -43,6 +43,13 @@ app.register(fastifySwaggerUi, {
 	routePrefix: "/docs",
 });
 
+const healthRoute: FastifyPluginAsync = async (app) => {
+	app.get('/health', async (request, reply) => {
+	  return { status: 'ok' }
+	})
+  }
+export default healthRoute
+
 // registro das rotas na aplicação
 app.register(inscricaoParaOEventoRoute);
 app.register(linkAcessoConviteRoute);
@@ -50,6 +57,8 @@ app.register(clicksDeConviteRoute);
 app.register(contagemDeConvitesRoute);
 app.register(posicaoInscritoRankingRoute);
 app.register(rankingRoute);
+
+app.register(healthRoute);
 
 app.listen({ port: env.PORT }).then(() => {
 	// reportar 'quando' acontecer algo
