@@ -5,6 +5,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
 
+RUN npm install -g tsup
+
 COPY . .
 
 RUN npm run build
