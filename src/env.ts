@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const envSchema = z.object({
 	// server
-	PORT: z.coerce.number().default(3333), // conversão para número (padrão: string)
+	PORT: z.coerce.number().default(80), // conversão para número (padrão: string)
 
 	// database
 	POSTGRESQL_URL: z.string().url().refine((url) => 

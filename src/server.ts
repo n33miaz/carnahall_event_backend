@@ -15,6 +15,7 @@ import { inscricaoParaOEventoRoute } from "./routes/inscricao_para_o_evento_rout
 import { linkAcessoConviteRoute } from "./routes/link_acesso_convite_route";
 import { posicaoInscritoRankingRoute } from "./routes/posicao_inscrito_ranking_route";
 import { rankingRoute } from "./routes/ranking_route";
+import homeRoute from "./routes/home_route";
 
 const app = fastify({
 	logger: true,
@@ -59,8 +60,9 @@ app.register(posicaoInscritoRankingRoute);
 app.register(rankingRoute);
 
 app.register(healthRoute);
+app.register(homeRoute);
 
-app.listen({ port: env.PORT }).then(() => {
+app.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
 	// reportar 'quando' acontecer algo
-	console.log("HTTP server rodando");
+	console.log("HTTP server rodando!");
 });
