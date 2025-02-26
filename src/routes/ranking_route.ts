@@ -1,6 +1,6 @@
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { z } from "zod";
 import { ranking } from "../functions/ranking";
+import { z } from "zod";
 
 export const rankingRoute: FastifyPluginAsyncZod = async (app) => {
 	app.get(
@@ -23,9 +23,16 @@ export const rankingRoute: FastifyPluginAsyncZod = async (app) => {
 			},
 		},
 		async (request) => {
-			const { rankingComPontuacao } = await ranking();
+			try
+			{
+				const { rankingComPontuacao } = await ranking();
 
-			return { ranking: rankingComPontuacao };
+				return { ranking: rankingComPontuacao };
+			}
+			catch (error)
+			{
+				console.log(error);
+			}
 		},
 	);
 };

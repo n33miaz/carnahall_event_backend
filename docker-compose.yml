@@ -4,9 +4,9 @@ services:
 ##    ports:
 ##      - '5432:5432'
 ##    environment:
-##      - POSTGRESQL_USERNAME=docker
-##      - POSTGRESQL_PASSWORD=docker
-##      - POSTGRESQL_DATABASE=carnahall
+##      - POSTGRESQL_USERNAME=
+##      - POSTGRESQL_PASSWORD=
+##      - POSTGRESQL_DATABASE=
 
   service-redis:
     image: bitnami/redis:latest

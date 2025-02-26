@@ -16,13 +16,15 @@ import { linkAcessoConviteRoute } from "./routes/link_acesso_convite_route";
 import { posicaoInscritoRankingRoute } from "./routes/posicao_inscrito_ranking_route";
 import { rankingRoute } from "./routes/ranking_route";
 
-const app = fastify().withTypeProvider<ZodTypeProvider>();
+const app = fastify({
+	logger: true,
+}).withTypeProvider<ZodTypeProvider>();
 
 app.setSerializerCompiler(serializerCompiler); // faz a serialização dos dados
 app.setValidatorCompiler(validatorCompiler); // valida o formato de entrada de dados
 
 app.register(fastifyCors, { // restringe as aquisições para um frontend específico
-	origin: 'http://localhost:3333'
+	origin: 'https://carnahall-event-frontend.vercel.app/'
 });
 
 app.register(fastifySwagger, {

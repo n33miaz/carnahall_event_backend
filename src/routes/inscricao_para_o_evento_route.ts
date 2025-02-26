@@ -1,6 +1,6 @@
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { z } from "zod";
 import { inscricaoNoEvento } from "../functions/inscricao-no-evento";
+import { z } from "zod";
 
 export const inscricaoParaOEventoRoute: FastifyPluginAsyncZod = async (app) => {
 	app.post(
@@ -22,18 +22,25 @@ export const inscricaoParaOEventoRoute: FastifyPluginAsyncZod = async (app) => {
 			},
 		},
 		async (request, reply) => {
-			const { nome, email, referencia } = request.body;
+			try
+			{
+				const { nome, email, referencia } = request.body;
 
-			const { inscritoId } = await inscricaoNoEvento({
-				nome,
-				email,
-				referenciadorId: referencia || null,
-			});
-
-			// criação da inscrição no banco de dados
-			return reply.status(201).send({
-				inscritoId,
-			});
+				const { inscritoId } = await inscricaoNoEvento({
+					nome,
+					email,
+					referenciadorId: referencia || null,
+				});
+	
+				// criação da inscrição no banco de dados
+				return reply.status(201).send({
+					inscritoId,
+				});
+			}
+			catch (error)
+			{
+				console.log(error);
+			}
 		},
 	);
 };

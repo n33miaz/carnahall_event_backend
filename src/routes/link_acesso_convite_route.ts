@@ -1,7 +1,7 @@
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { z } from "zod";
-import { env } from "../env";
 import { linkAcessoConvite } from "../functions/link_acesso_convite";
+import { env } from "../env";
+import { z } from "zod";
 
 export const linkAcessoConviteRoute: FastifyPluginAsyncZod = async (app) => {
 	app.get(
@@ -19,17 +19,24 @@ export const linkAcessoConviteRoute: FastifyPluginAsyncZod = async (app) => {
 			},
 		},
 		async (request, reply) => {
-			const { inscritoId } = request.params;
+			try
+			{
+				const { inscritoId } = request.params;
 
-			// chama a função que incrementa a contagem no Redis
-			await linkAcessoConvite({ inscritoId });
-
-			// serve para diferenciar de quem foi a indicação do link/convite
-			const redirecionamentoUrl = new URL(env.WEB_URL);
-			redirecionamentoUrl.searchParams.set("referenciador", inscritoId);
-
-			// 302: redirect temporário (contabilizar mais de 1 acesso)
-			return reply.redirect(redirecionamentoUrl.toString(), 302);
+				// chama a função que incrementa a contagem no Redis
+				await linkAcessoConvite({ inscritoId });
+	
+				// serve para diferenciar de quem foi a indicação do link/convite
+				const redirecionamentoUrl = new URL(env.WEB_URL);
+				redirecionamentoUrl.searchParams.set("referenciador", inscritoId);
+	
+				// 302: redirect temporário (contabilizar mais de 1 acesso)
+				return reply.redirect(redirecionamentoUrl.toString(), 302);
+			}
+			catch (error)
+			{
+				console.log(error);
+			}
 		},
 	);
 };

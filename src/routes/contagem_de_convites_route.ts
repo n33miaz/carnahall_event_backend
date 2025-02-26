@@ -1,6 +1,6 @@
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { z } from "zod";
 import { contagemDeConvites } from "../functions/contagem-de-convites";
+import { z } from "zod";
 
 export const contagemDeConvitesRoute: FastifyPluginAsyncZod = async (app) => {
 	app.get(
@@ -20,11 +20,18 @@ export const contagemDeConvitesRoute: FastifyPluginAsyncZod = async (app) => {
 			},
 		},
 		async (request) => {
-			const { inscritoId } = request.params;
+			try
+			{
+				const { inscritoId } = request.params;
 
-			const { contagem } = await contagemDeConvites({ inscritoId });
-
-			return { contagem };
+				const { contagem } = await contagemDeConvites({ inscritoId });
+	
+				return { contagem };
+			}
+			catch (error)
+			{
+				console.log(error);
+			}
 		},
 	);
 };

@@ -22,11 +22,18 @@ export const posicaoInscritoRankingRoute: FastifyPluginAsyncZod = async (
 			},
 		},
 		async (request) => {
-			const { inscritoId } = request.params;
+			try
+			{
+				const { inscritoId } = request.params;
 
-			const { position } = await posicaoInscritoRanking({ inscritoId });
-
-			return { position };
+				const { position } = await posicaoInscritoRanking({ inscritoId });
+	
+				return { position };
+			}
+			catch (error)
+			{
+				console.log(error);
+			}
 		},
 	);
 };
