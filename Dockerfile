@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
 
+RUN npm install typescript -D
 RUN npm install -g tsup
 
 COPY . .
