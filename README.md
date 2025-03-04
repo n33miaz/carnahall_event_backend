@@ -4,7 +4,7 @@
 
 Este é o backend da aplicação CarnaHall Event, uma API RESTful construída com Fastify, TypeScript e Drizzle ORM. Ela é responsável por gerenciar a inscrição de usuários em um evento, controlar o ranking de indicações e fornecer dados para a interface web.
 
-**interface web do projeto**: [https://carnahall-event-frontend.vercel.app](https://carnahall-event-frontend.vercel.app)
+**interface web do projeto**: [https://carnahall.vercel.app](https://carnahall.vercel.app/)
 <br>
 **repositório do projeto web**: [https://github.com/n33miaz/carnahall_event_frontend](https://github.com/n33miaz/carnahall_event_frontend)
 
