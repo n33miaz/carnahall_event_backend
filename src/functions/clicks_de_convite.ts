@@ -1,11 +1,11 @@
-import { redis } from "../redis/client";
+import { redis } from '../redis/client'
 
 interface clicksDeConviteParams {
-	inscritoId: string;
+  inscritoId: string
 }
 
 export async function clicksDeConvite({ inscritoId }: clicksDeConviteParams) {
-	const contagem = await redis.hget("referencia:contagem-acesso", inscritoId);
+  const contagem = await redis.hget('referencia:contagem-acesso', inscritoId)
 
-	return { contagem: contagem ? Number.parseInt(contagem) : 0 };
+  return { contagem: contagem ? Number.parseInt(contagem) : 0 }
 }

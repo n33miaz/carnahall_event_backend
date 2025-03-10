@@ -1,1 +1,1 @@
-export * from "../tables/inscricoes";
+export * from '../tables/inscricoes'

@@ -1,4 +1,4 @@
-import { FastifyInstance } from 'fastify'
+import type { FastifyInstance } from 'fastify'
 
 async function homeRoute(app: FastifyInstance) {
   app.get('/', async (request, reply) => {

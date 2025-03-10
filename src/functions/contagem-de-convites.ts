@@ -1,16 +1,16 @@
-import { redis } from "../redis/client";
+import { redis } from '../redis/client'
 
 interface contagemDeConvitesParams {
-	inscritoId: string;
+  inscritoId: string
 }
 
 export async function contagemDeConvites({
-	inscritoId,
+  inscritoId,
 }: contagemDeConvitesParams) {
-	const contagem = await redis.zscore("referencia:ranking", inscritoId);
+  const contagem = await redis.zscore('referencia:ranking', inscritoId)
 
-	if (contagem) {
-		return { contagem: Number.parseInt(contagem) };
-	}
-	return { contagem: 0 };
+  if (contagem) {
+    return { contagem: Number.parseInt(contagem) }
+  }
+  return { contagem: 0 }
 }

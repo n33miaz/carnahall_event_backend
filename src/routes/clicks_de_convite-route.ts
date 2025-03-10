@@ -1,37 +1,34 @@
-import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { clicksDeConvite } from "../functions/clicks_de_convite";
-import { z } from "zod";
+import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
+import { z } from 'zod'
+import { clicksDeConvite } from '../functions/clicks_de_convite'
 
-export const clicksDeConviteRoute: FastifyPluginAsyncZod = async (app) => {
-	app.get(
-		"/inscritos/:inscritoId/ranking/clicks",
-		{
-			schema: {
-				summary: "Contagem de clicks de um convite",
-				tags: ["referência"],
-				params: z.object({
-					inscritoId: z.string(),
-				}),
-				response: {
-					200: z.object({
-						contagem: z.number(),
-					}),
-				},
-			},
-		},
-		async (request) => {
-			try 
-			{
-				const { inscritoId } = request.params;
+export const clicksDeConviteRoute: FastifyPluginAsyncZod = async app => {
+  app.get(
+    '/inscritos/:inscritoId/ranking/clicks',
+    {
+      schema: {
+        summary: 'Contagem de clicks de um convite',
+        tags: ['referência'],
+        params: z.object({
+          inscritoId: z.string(),
+        }),
+        response: {
+          200: z.object({
+            contagem: z.number(),
+          }),
+        },
+      },
+    },
+    async request => {
+      try {
+        const { inscritoId } = request.params
 
-				const { contagem } = await clicksDeConvite({ inscritoId });
+        const { contagem } = await clicksDeConvite({ inscritoId })
 
-				return { contagem };
-			}
-			catch (error)
-			{
-				console.error(error);
-			}
-		},
-	);
-};
+        return { contagem }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  )
+}
