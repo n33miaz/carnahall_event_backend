@@ -5,36 +5,10 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(80), // conversão para número (padrão: string)
 
   // database
-  POSTGRESQL_URL: z
-    .string()
-    .url()
-    .refine(
-      url => {
-        try {
-          new URL(url)
-          return true
-        } catch (e) {
-          return false
-        }
-      },
-      { message: 'DATABASE_URL inválida' }
-    ),
+    POSTGRESQL_URL: z.string().min(1),
 
-  // redis
-  REDIS_URL: z
-    .string()
-    .url()
-    .refine(
-      url => {
-        try {
-          new URL(url)
-          return true
-        } catch (e) {
-          return false
-        }
-      },
-      { message: 'REDIS_URL inválida' }
-    ),
+    // redis
+    REDIS_URL: z.string().min(1),
 
   // urls
   API_URL: z.string().url(),

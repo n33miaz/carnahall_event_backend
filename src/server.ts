@@ -25,8 +25,11 @@ app.setSerializerCompiler(serializerCompiler) // faz a serialização dos dados
 app.setValidatorCompiler(validatorCompiler) // valida o formato de entrada de dados
 
 app.register(fastifyCors, {
-  // restringe as aquisições para um frontend específico
-  origin: true, // 'https://carnahall.vercel.app/'
+  origin: 'https://carnahall.vercel.app', // 'true' 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
+  allowedHeaders: ['Content-Type', 'Authorization'],     
+  exposedHeaders: ['X-Total-Count'],                     
+  credentials: true,                                     
 })
 
 app.register(fastifySwagger, {
@@ -38,6 +41,19 @@ app.register(fastifySwagger, {
   },
   transform: jsonSchemaTransform,
   // faz a documentação automática sobre a serialização e a validação './routes/inscricao-para-o-evento-route'
+})
+
+// middleware de tratamento de erros global
+app.setErrorHandler((error, request, reply) => {
+  console.error(error) // SEMPRE logar o erro
+
+  if (error instanceof Error) {
+    // se for um erro lançado intencionalmente
+    reply.status(400).send({ error: error.message }) // ou outro status apropriado
+  } else {
+    // erros inesperados
+    reply.status(500).send({ error: 'Erro interno do servidor.' })
+  }
 })
 
 // rota da documentação 'http://localhost:3333/docs'
@@ -53,6 +69,7 @@ const healthRoute: FastifyPluginAsync = async app => {
 export default healthRoute
 
 // registro das rotas na aplicação
+app.register(healthRoute)
 app.register(inscricaoParaOEventoRoute)
 app.register(linkAcessoConviteRoute)
 app.register(clicksDeConviteRoute)
@@ -60,7 +77,6 @@ app.register(contagemDeConvitesRoute)
 app.register(posicaoInscritoRankingRoute)
 app.register(rankingRoute)
 
-app.register(healthRoute)
 app.register(homeRoute)
 
 app.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
